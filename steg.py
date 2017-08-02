@@ -4,7 +4,8 @@ try:
 except:
     input("Please install PIL and webcolors(pip3 install Image and pip3 install webcolors).\nPress enter to exit.")
     exit()
-import os, translate
+import translate, os
+from time import strftime
 
 def str2bin(string):
     return translate.lp2b(string)
@@ -32,7 +33,7 @@ def decode(hexcode):
         return None
 
 def hide(filename, message):
-    img = Image.open(filename)
+    img = Image.open('files/' + filename)
     binary = str2bin(message) + '1111111111111110'
     if img.mode in ('RGBA'):
         img = img.convert('RGBA')
@@ -54,17 +55,17 @@ def hide(filename, message):
                 newData.append(item)
         img.putdata(newData)
         try:
-            img.save('files/' + filename, "PNG")
+            img.save('files/' + filename + ".converted", "PNG")
         except:
             os.mkdir('files/')
-            img.save('files/' + filename, "PNG")
+            img.save('files/' + filename + ".converted", "PNG")
         print("Message successfully hidden.")
         return 'files/' + filename
     print("Incorrect image mode. Message not hidden.")
     return None
 
 def retr(filename):
-    img = Image.open('files/' + filename)
+    img = Image.open('files/' + filename + ".converted")
     binary = ''
 
     if img.mode in ('RGBA'):
